@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <p>Enter Your Text or URL</p>
+    <input type="text" placeholder="Text or URL" id="qrText">
+
+    <p>Select QR Code Size</p>
+    <select id="qrSize">
+        <option value="150x150">150x150</option>
+        <option value="200x200">200x200</option>
+        <option value="300x300">300x300</option>
+    </select>
+
+    <p>Select QR Code Colors</p>
+    <label>Foreground Color: <input type="color" id="fgColor" value="#000000"></label><br>
+    <label>Background Color: <input type="color" id="bgColor" value="#ffffff"></label>
+
+    <div id="imgBox">
+        <img src="" id="qrImage">
+    </div>
+
+    <button onclick="generateQR()">Generate QR Code</button>
+</div>
+
+<script>
+    let imgBox = document.getElementById("imgBox");
+    let qrImage = document.getElementById("qrImage");
+    let qrText = document.getElementById("qrText");
+    let qrSize = document.getElementById("qrSize");
+    let fgColor = document.getElementById("fgColor");
+    let bgColor = document.getElementById("bgColor");
+
+    function generateQR() {
+        if (qrText.value.length > 0) {
+            let size = qrSize.value;
+            let fg = fgColor.value.slice(1);  
+            let bg = bgColor.value.slice(1);
+
+            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=${size}&data=${qrText.value}&color=${fg}&bgcolor=${bg}`;
+            imgBox.classList.add("show-img");
+        } else {
+            qrText.classList.add('error');
+            setTimeout(() => {
+                qrText.classList.remove('error');
+            }, 1000);
+        }
+    }
+</script>
+
+</body>
+</html>
